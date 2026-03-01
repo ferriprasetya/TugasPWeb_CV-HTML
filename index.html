@@ -88,7 +88,6 @@
     }
 
     .cv-container {
-      /* Diubah menjadi 1280px (Setara max-w-7xl di Tailwind) */
       max-width: 1280px;
       margin: 0 auto;
       padding: 60px 20px;
@@ -140,45 +139,54 @@
       color: var(--color-white);
     }
 
-    .cv-contact {
-      font-style: normal;
-      font-size: 0.95rem;
-      color: var(--color-primary-foreground);
+    /* Social Media */
+    .social-media {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      gap: 16px;
+      align-items: center;
+      gap: 24px;
+      width: fit-content;
     }
 
-    .cv-contact a {
-      color: var(--color-white);
-      text-decoration: none;
-      position: relative;
+    @media (min-width: 640px) {
+      .social-media {
+        gap: 24px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .social-media {
+        gap: 24px;
+      }
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--color-outer-space);
+      padding: 6px;
+      border-radius: 9999px;
       transition: all 0.3s ease;
+      color: var(--color-outer-space);
+      text-decoration: none;
     }
 
-    .cv-contact a::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 2px;
-      bottom: -2px;
-      left: 0;
-      background-color: var(--color-primary);
-      transform: scaleX(0);
-      transform-origin: bottom right;
-      transition: transform 0.3s ease;
-      opacity: 0.7;
+    .social-link:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
     }
 
-    .cv-contact a:hover {
-      color: var(--color-white);
-      opacity: 0.8;
+    .social-icon {
+      width: 24px;
+      height: 24px;
+      display: block;
     }
 
-    .cv-contact a:hover::after {
-      transform: scaleX(1);
-      transform-origin: bottom left;
+    @media (min-width: 640px) {
+      .social-icon {
+        width: 28px;
+        height: 28px;
+      }
     }
 
     @keyframes slideUpFade {
@@ -388,7 +396,6 @@
       transform: translateY(-2px);
     }
 
-    /* --- New Project Grid Architecture --- */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -417,7 +424,6 @@
     .project-image-wrapper {
       width: 100%;
       aspect-ratio: 16 / 9;
-      /* Desktop screenshot ratio */
       overflow: hidden;
       position: relative;
       background-color: var(--color-primary-dark2);
@@ -456,7 +462,6 @@
 
     .project-card .tech-stack-container {
       margin-top: auto;
-      /* Push tags to the bottom of the card */
       padding-top: 20px;
     }
 
@@ -514,7 +519,6 @@
 
       .projects-grid {
         grid-template-columns: 1fr;
-        /* 1 kolom penuh pada mobile */
       }
 
       .project-card {
@@ -535,13 +539,38 @@
       </div>
       <div class="header-info">
         <h1 class="cv-name">FERRI ADI PRASETYA</h1>
-        <address class="cv-contact">
-          <a href="mailto:feriadiprasetya12@gmail.com">feriadiprasetya12@gmail.com</a>
-          <span>|</span>
-          <a href="https://linkedin.com/in/ferri-adi-prasetya" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <span>|</span>
-          <a href="https://ferriadi.my.id" target="_blank" rel="noopener noreferrer">Website</a>
-        </address>
+        <div class="social-media">
+          <a href="https://ferriadi.my.id" title="Website" target="_blank" class="social-link">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe-icon lucide-globe">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+              <path d="M2 12h20" />
+            </svg>
+          </a>
+          <a href="https://github.com/ferriprasetya" title="Github" target="_blank" class="social-link">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/ferri-adi-prasetya" title="LinkedIn" target="_blank" class="social-link">
+            <svg class="social-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_68_126)">
+                <path d="M12 0.480011C5.63758 0.480011 0.47998 5.63761 0.47998 12C0.47998 18.3624 5.63758 23.52 12 23.52C18.3624 23.52 23.52 18.3624 23.52 12C23.52 5.63761 18.3624 0.480011 12 0.480011ZM9.17998 16.7748H6.84718V9.26761H9.17998V16.7748ZM7.99918 8.34601C7.26238 8.34601 6.78598 7.82401 6.78598 7.17841C6.78598 6.51961 7.27678 6.01321 8.02918 6.01321C8.78158 6.01321 9.24238 6.51961 9.25678 7.17841C9.25678 7.82401 8.78158 8.34601 7.99918 8.34601ZM17.7 16.7748H15.3672V12.6144C15.3672 11.646 15.0288 10.9884 14.1852 10.9884C13.5408 10.9884 13.158 11.4336 12.9888 11.862C12.9264 12.0144 12.9108 12.2304 12.9108 12.4452V16.7736H10.5768V11.6616C10.5768 10.7244 10.5468 9.94081 10.5156 9.26641H12.5424L12.6492 10.3092H12.696C13.0032 9.81961 13.7556 9.09721 15.0144 9.09721C16.5492 9.09721 17.7 10.1256 17.7 12.336V16.7748Z" fill="currentColor" />
+              </g>
+              <defs>
+                <clipPath id="clip0_68_126">
+                  <rect width="24" height="24" fill="currentColor" />
+                </clipPath>
+              </defs>
+            </svg>
+
+          </a>
+          <a href="https://www.instagram.com/prasetya_ferri" title="Instagram" target="_blank" class="social-link">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2m-.3 2c-2.1 0-3.8 1.7-3.8 3.8v8.4c0 2.1 1.7 3.8 3.8 3.8h8.4c2.1 0 3.8-1.7 3.8-3.8V7.8c0-2.1-1.7-3.8-3.8-3.8H7.5m9.6 1.5c.4 0 .8.4.8.8s-.4.8-.8.8-.8-.4-.8-.8.4-.8.8-.8m-5.1 1.2c2.7 0 4.9 2.2 4.9 4.9s-2.2 4.9-4.9 4.9-4.9-2.2-4.9-4.9 2.2-4.9 4.9-4.9m0 2c-1.6 0-2.9 1.3-2.9 2.9s1.3 2.9 2.9 2.9 2.9-1.3 2.9-2.9-1.3-2.9-2.9-2.9" />
+            </svg>
+          </a>
+        </div>
       </div>
     </header>
 
@@ -950,16 +979,16 @@
       const mouseX = e.clientX;
       const mouseY = e.clientY;
 
-      blob1.style.left = (mouseX / window.innerWidth * 100) - 30 + '%';
-      blob1.style.top = (mouseY / window.innerHeight * 100) - 25 + '%';
+      blob1.style.left = (mouseX / window.innerWidth * 100) - 35 + '%';
+      blob1.style.top = (mouseY / window.innerHeight * 100) - 35 + '%';
     });
 
     AOS.init({
-      duration: 600, // sama dengan CSS animation 0.6s
+      duration: 600,
       easing: 'ease-in-out',
-      once: false, // animasi bisa jalan berkali-kali saat scroll
-      mirror: true, // animasi jalan saat scroll naik dan turun
-      offset: 100, // trigger 100px sebelum elemen enter viewport
+      once: false,
+      mirror: true,
+      offset: 100,
       delay: 0
     });
   </script>
