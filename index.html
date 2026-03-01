@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <title>CV - Ferri Adi Prasetya</title>
+  <style>
+    :root {
+      --color-primary: #70F2B1;
+      --color-primary-rgb: 112, 242, 177;
+      --color-primary-dark: #25262A;
+      --color-primary-dark2: #2D2E32;
+      --color-primary-foreground: #bcc3ca;
+      --color-outer-space: #6A7580;
+      --color-white: #ffffff;
+
+      --color-accent: #116341;
+      --color-glass-bg: rgba(45, 46, 50, 0.4);
+      --color-glass-border: rgba(255, 255, 255, 0.05);
+    }
+
+    ::selection {
+      background-color: var(--color-primary);
+      color: var(--color-primary-dark);
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--color-primary-dark);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-outer-space);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-primary-foreground);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color-primary-dark);
+      color: var(--color-primary-foreground);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .ambient-blob {
+      position: fixed;
+      z-index: -2;
+      pointer-events: none;
+      transform: translateZ(0);
+    }
+
+    .blob-1 {
+      top: -25%;
+      left: -30%;
+      width: 60vw;
+      height: 60vw;
+      opacity: 8%;
+      background: radial-gradient(circle, rgba(var(--color-primary-rgb), 1) 0%, var(--color-primary-dark) 65%);
+    }
+
+    .blob-2 {
+      bottom: -25%;
+      right: -10%;
+      width: 70vw;
+      height: 70vw;
+      background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.05) 0%, rgba(var(--color-primary-rgb), 0) 65%);
+    }
+
+    .cv-container {
+      /* Diubah menjadi 1280px (Setara max-w-7xl di Tailwind) */
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cv-header {
+      margin-bottom: 56px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    .header-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .profile-photo-wrapper {
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      padding: 4px;
+      background: transparent;
+      border: 1px solid rgba(112, 242, 177, 0.15);
+      position: relative;
+      box-shadow: inset 0 0 20px rgba(112, 242, 177, 0.05);
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--color-primary-dark);
+      background-color: var(--color-primary-dark2);
+    }
+
+    .cv-name {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      color: var(--color-white);
+    }
+
+    .cv-contact {
+      font-style: normal;
+      font-size: 0.95rem;
+      color: var(--color-primary-foreground);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 16px;
+    }
+
+    .cv-contact a {
+      color: var(--color-white);
+      text-decoration: none;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .cv-contact a::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: var(--color-primary);
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease;
+      opacity: 0.7;
+    }
+
+    .cv-contact a:hover {
+      color: var(--color-white);
+      opacity: 0.8;
+    }
+
+    .cv-contact a:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    @keyframes slideUpFade {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .cv-section {
+      margin-bottom: 48px;
+      background: var(--color-glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--color-glass-border);
+      border-top: 1px solid rgba(112, 242, 177, 0.12);
+      border-left: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-title {
+      color: var(--color-white);
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-weight: 700;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(112, 242, 177, 0.15), transparent);
+    }
+
+    .summary-text {
+      font-size: 1.05rem;
+      text-align: justify;
+      color: var(--color-white);
+      line-height: 1.8;
+      opacity: 0.9;
+    }
+
+    .timeline-container {
+      border-left: 2px solid rgba(112, 242, 177, 0.08);
+      padding-left: 32px;
+      margin-left: 12px;
+    }
+
+    .timeline-item,
+    .project-item {
+      position: relative;
+      margin-bottom: 24px;
+      padding: 16px 24px;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: 1px solid transparent;
+    }
+
+    .timeline-item:hover,
+    .project-item:hover {
+      background-color: rgba(112, 242, 177, 0.02);
+      border-color: rgba(112, 242, 177, 0.08);
+      transform: translateX(8px);
+    }
+
+    .timeline-item::before,
+    .project-item::before {
+      content: '';
+      position: absolute;
+      left: -39px;
+      top: 24px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: var(--color-primary-dark2);
+      border: 2px solid var(--color-outer-space);
+      transition: all 0.3s ease;
+      box-shadow: 0 0 0 4px var(--color-glass-bg);
+    }
+
+    .timeline-item:hover::before,
+    .project-item:hover::before {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+      box-shadow: 0 0 8px rgba(112, 242, 177, 0.2), 0 0 0 4px var(--color-glass-bg);
+      transform: scale(1.2);
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+
+    .item-title-group {
+      flex: 1 1 60%;
+    }
+
+    .role,
+    .project-title {
+      color: var(--color-white);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      transition: opacity 0.3s ease;
+    }
+
+    .timeline-item:hover .role,
+    .project-item:hover .project-title {
+      opacity: 0.9;
+    }
+
+    .company {
+      display: inline-block;
+      color: var(--color-primary-foreground);
+      font-weight: 500;
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+
+    .date {
+      font-size: 0.85rem;
+      color: var(--color-primary-foreground);
+      background: var(--color-primary-dark2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .item-context,
+    .project-desc {
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      color: var(--color-primary-foreground);
+      line-height: 1.6;
+    }
+
+    .item-details {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .item-details li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: var(--color-primary-foreground);
+      line-height: 1.6;
+    }
+
+    .item-details li::before {
+      content: "▹";
+      color: var(--color-outer-space);
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: bold;
+      transition: transform 0.2s ease;
+    }
+
+    .timeline-item:hover .item-details li::before {
+      transform: translateX(4px);
+    }
+
+    .tech-stack-container {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tech-badge {
+      background-color: var(--color-primary-dark2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--color-primary-foreground);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+
+    .tech-badge:hover {
+      background-color: rgba(112, 242, 177, 0.05);
+      border-color: rgba(112, 242, 177, 0.3);
+      color: var(--color-primary);
+      transform: translateY(-2px);
+    }
+
+    /* --- New Project Grid Architecture --- */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .project-card {
+      background: rgba(45, 46, 50, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-top: 1px solid rgba(112, 242, 177, 0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      background: rgba(45, 46, 50, 0.6);
+      border-color: rgba(112, 242, 177, 0.15);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2), 0 0 16px rgba(112, 242, 177, 0.05);
+    }
+
+    .project-image-wrapper {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      /* Desktop screenshot ratio */
+      overflow: hidden;
+      position: relative;
+      background-color: var(--color-primary-dark2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .project-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-card:hover .project-image {
+      transform: scale(1.05);
+    }
+
+    .project-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .project-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+
+    .project-card:hover .project-title {
+      color: var(--color-primary);
+    }
+
+    .project-card .tech-stack-container {
+      margin-top: auto;
+      /* Push tags to the bottom of the card */
+      padding-top: 20px;
+    }
+
+    /* --- Media Queries --- */
+    @media (max-width: 600px) {
+      .cv-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 24px;
+      }
+
+      .header-info {
+        align-items: center;
+      }
+
+      .cv-contact {
+        justify-content: center;
+      }
+
+      .cv-container {
+        padding: 40px 16px;
+      }
+
+      .cv-section {
+        padding: 24px;
+        border-radius: 16px;
+      }
+
+      .cv-name {
+        font-size: 2.2rem;
+      }
+
+      .timeline-container {
+        margin-left: 4px;
+        padding-left: 20px;
+      }
+
+      .timeline-item::before,
+      .project-item::before {
+        left: -27px;
+      }
+
+      .timeline-item,
+      .project-item {
+        padding: 16px 8px;
+      }
+
+      .item-header {
+        flex-direction: column;
+      }
+
+      .date {
+        align-self: flex-start;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+        /* 1 kolom penuh pada mobile */
+      }
+
+      .project-card {
+        border-radius: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ambient-blob blob-1"></div>
+  <div class="ambient-blob blob-2"></div>
+
+  <main class="cv-container">
+    <header class="cv-header">
+      <div class="profile-photo-wrapper">
+        <img src="/assets/images/profile.png" alt="Ferri Adi Prasetya" class="profile-photo">
+      </div>
+      <div class="header-info">
+        <h1 class="cv-name">FERRI ADI PRASETYA</h1>
+        <address class="cv-contact">
+          <a href="mailto:feriadiprasetya12@gmail.com">feriadiprasetya12@gmail.com</a>
+          <span>|</span>
+          <a href="https://linkedin.com/in/ferri-adi-prasetya" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <span>|</span>
+          <a href="https://ferriadi.my.id" target="_blank" rel="noopener noreferrer">Website</a>
+        </address>
+      </div>
+    </header>
+
+    <section id="summary" class="cv-section" data-aos="fade-right">
+      <p class="summary-text">
+        Saya adalah mahasiswa tahun kedua di program studi Rekayasa Kecerdasan Artifisial. Latar belakang saya mencakup pengalaman di perusahaan perangkat lunak, partisipasi aktif dalam komunitas teknologi, serta kepanitiaan dalam berbagai acara kampus. Saya berkomitmen untuk terus mengembangkan keahlian teknis saya dan memberikan kontribusi nyata yang berdampak di masa depan.
+      </p>
+    </section>
+
+    <section id="experience" class="cv-section" data-aos="fade-right">
+      <h2 class="section-title">Pekerjaan Impian</h2>
+      <p class="summary-text">
+        Dengan latar belakang Software Engineering dan AI, saya bercita-cita menjadi <b>Solution Architect</b>. Dari yang saya tau, peran ini bukan sekadar menyusun kode, tapi tentang merangkai solusi nyata untuk masalah bisnis yang kompleks. Saya ingin menjadi jembatan yang adaptif dan solutif, yang mampu menerjemahkan visi besar perusahaan ke dalam eksekusi teknologi yang solid dan efisien.
+      </p>
+    </section>
+
+    <section id="experience" class="cv-section" data-aos="fade-right">
+      <h2 class="section-title">Aplikasi yang ingin dibuat sebagai FP</h2>
+      <p class="summary-text">
+        Saya ingin membuat <b>Sistem Presensi Wajah Low-Cost</b>, karena teknologi RFID rentan manipulasi dan layanan Cloud AI komersial terlalu mahal. Implementasinya memproses ekstraksi biometrik di sisi klien menggunakan model ONNX, lalu dicocokkan secara efisien di backend melalui Supabase Vector.
+      </p>
+    </section>
+
+    <section id="experience" class="cv-section" data-aos="fade-right">
+      <h2 class="section-title">Pengalaman Kerja</h2>
+      <div class="timeline-container">
+        <article class="timeline-item">
+          <header class="item-header">
+            <div class="item-title-group">
+              <h3 class="role">Staff Software Engineer</h3>
+              <span class="company">Refactory Sleman, Yogyakarta — Software House</span>
+            </div>
+            <span class="date">Agt 2022 - Nov 2023</span>
+          </header>
+          <ul class="item-details">
+            <li>Menyelesaikan berbagai tugas rekayasa perangkat lunak dan memberikan dukungan pemecahan masalah (troubleshooting).</li>
+            <li>Berkolaborasi dengan lintas tim untuk mengidentifikasi dan menyelesaikan kendala, serta merancang solusi melalui pengembangan aplikasi.</li>
+            <li>Memberikan kontribusi signifikan dalam pengembangan lebih dari 6 proyek utama dan turut memfasilitasi penyelesaian berbagai proyek lainnya.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="education" class="cv-section" data-aos="fade-right">
+      <h2 class="section-title">Pendidikan</h2>
+      <div class="timeline-container">
+        <article class="timeline-item">
+          <header class="item-header">
+            <div class="item-title-group">
+              <h3 class="role">S1 Rekayasa Kecerdasan Artifisial, IPK: 3.48/4.00</h3>
+              <span class="company">Institut Teknologi Sepuluh Nopember — Surabaya, Jawa Timur</span>
+            </div>
+            <span class="date">Jul 2024 - Sekarang</span>
+          </header>
+        </article>
+
+        <article class="timeline-item">
+          <header class="item-header">
+            <div class="item-title-group">
+              <h3 class="role">Sekolah Menengah Kejuruan (SMK)</h3>
+              <span class="company">SMK Negeri 1 Purwodadi — Grobogan, Jawa Tengah</span>
+            </div>
+            <span class="date">Jul 2019 - Jun 2022</span>
+          </header>
+          <ul class="item-details">
+            <li>Lulusan terbaik kedua di SMK Negeri 1 Purwodadi angkatan 2022.</li>
+            <li>Menjadi bagian dari tim sebagai Software Engineer yang berhasil meraih Juara 2 pada Lomba Kompetensi Siswa SMK Tingkat Nasional (SaKKSI) 2021 di bidang IoT (Internet of Things).</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="organizations" class="cv-section" data-aos="fade-right">
+      <h2 class="section-title">Pengalaman Organisasi</h2>
+      <div class="timeline-container">
+        <article class="timeline-item">
+          <header class="item-header">
+            <div class="item-title-group">
+              <h3 class="role">Core Team</h3>
+              <span class="company">SurabayaDev — Surabaya, Jawa Timur</span>
+            </div>
+            <span class="date">Mar 2025 - Sekarang</span>
+          </header>
+          <p class="item-context">SurabayaDev adalah komunitas bagi para developer di Surabaya yang berdedikasi tinggi terhadap teknologi dan pengembangan perangkat lunak.</p>
+        </article>
+
+        <article class="timeline-item">
+          <header class="item-header">
+            <div class="item-title-group">
+              <h3 class="role">Staff Frontend</h3>
+              <span class="company">Schematics — Surabaya, Jawa Timur</span>
+            </div>
+            <span class="date">Mar 2025 - Des 2025</span>
+          </header>
+          <p class="item-context">Schematics adalah acara tahunan yang diselenggarakan oleh mahasiswa Departemen Teknik Informatika, Institut Teknologi Sepuluh Nopember.</p>
+          <ul class="item-details">
+            <li>Mengembangkan antarmuka (UI) yang responsif berdasarkan rancangan UI/UX.</li>
+            <li>Berkolaborasi dengan tim backend untuk memastikan integrasi dan akurasi tampilan data.</li>
+            <li>Menjaga stabilitas dan mengoptimalkan performa keseluruhan situs web.</li>
+          </ul>
+        </article>
+
+        <article class="timeline-item">
+          <header class="item-header">
+            <div class="item-title-group">
+              <h3 class="role">Staff Frontend</h3>
+              <span class="company">Petrolida — Surabaya, Jawa Timur</span>
+            </div>
+            <span class="date">Nov 2024 - Jul 2025</span>
+          </header>
+          <p class="item-context">Petroleum Integrated Days (Petrolida) adalah acara tahunan berskala besar yang diadakan oleh SPE ITS Student Chapter, berfokus pada sektor minyak dan gas.</p>
+          <ul class="item-details">
+            <li>Mengimplementasikan elemen visual dan interaktif pada situs web Petrolida.</li>
+            <li>Bekerja sama erat dengan desainer UI/UX untuk menerjemahkan desain menjadi kode yang fungsional.</li>
+            <li>Berkolaborasi dengan tim Backend untuk mengintegrasikan API dan meningkatkan optimasi performa situs web.</li>
+          </ul>
+        </article>
+
+        <article class="timeline-item">
+          <header class="item-header">
+            <div class="item-title-group">
+              <h3 class="role">Volunteer in Developer Team</h3>
+              <span class="company">SurabayaDev — Surabaya, Jawa Timur</span>
+            </div>
+            <span class="date">Sep 2024 - Mar 2025</span>
+          </header>
+          <ul class="item-details">
+            <li>Berbagi pengetahuan seputar pemrograman secara internal maupun eksternal, baik melalui dokumentasi tertulis maupun presentasi verbal.</li>
+            <li>Berpartisipasi aktif dalam berbagai acara SurabayaDev dan mitra komunitas.</li>
+          </ul>
+        </article>
+
+        <article class="timeline-item">
+          <header class="item-header">
+            <div class="item-title-group">
+              <h3 class="role">Staff Frontend</h3>
+              <span class="company">Mabacup ITS 2024 — Surabaya, Jawa Timur</span>
+            </div>
+            <span class="date">Sep 2024 - Des 2024</span>
+          </header>
+          <p class="item-context">Maba Cup adalah acara tahunan yang diselenggarakan oleh Departemen Event LMB ITS.</p>
+          <ul class="item-details">
+            <li>Bertanggung jawab melakukan proses slicing desain UI/UX ke dalam komponen web.</li>
+            <li>Berkolaborasi dengan tim backend dalam proses integrasi API.</li>
+            <li>Melakukan peningkatan (improvement) pada fungsionalitas dan performa situs web.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="projects" class="cv-section" data-aos="fade-right">
+      <h2 class="section-title">Aplikasi yang Pernah Dikerjakan</h2>
+      <div class="projects-grid">
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/studzie.png" alt="Studzie Web App Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Studzie Web App</h3>
+            </div>
+            <p class="project-desc">Aplikasi web bimbingan belajar. Berperan sebagai <i>Fullstack Developer</i> merancang arsitektur sistem dan membangun modul pembayaran program, sistem ujian (<i>mock test</i>), dan dashboard manajemen.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">Next.js</span>
+              <span class="tech-badge">NestJS</span>
+              <span class="tech-badge">Tailwind CSS</span>
+              <span class="tech-badge">PostgreSQL</span>
+              <span class="tech-badge">Docker</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/paragon.png" alt="Paragon R&D Monitoring Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Paragon R&D Monitoring</h3>
+            </div>
+            <p class="project-desc">Sistem kendali dan pemantauan mesin R&D PT Paragon Technology and Innovation. Mengintegrasikan aplikasi web dengan arsitektur IoT untuk akuisisi data sensor dan kontrol instrumen.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">Laravel</span>
+              <span class="tech-badge">Vue</span>
+              <span class="tech-badge">Tailwind CSS</span>
+              <span class="tech-badge">MySQL</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/ams-absensi.png" alt="AMS Digital ID Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Sistem Manajemen Presensi</h3>
+            </div>
+            <p class="project-desc">Sistem presensi terintegrasi berbasis RFID yang telah diterapkan pada 20+ sekolah & instansi. Merancang secara <i>end-to-end</i> meliputi arsitektur sistem, antarmuka pengguna, serta <i>landing page</i>.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">Nuxt</span>
+              <span class="tech-badge">Tailwind</span>
+              <span class="tech-badge">Supabase</span>
+              <span class="tech-badge">Laravel</span>
+              <span class="tech-badge">MySQL</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/aladinmall.png" alt="MNC AladinMall Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">MNC AladinMall</h3>
+            </div>
+            <p class="project-desc">Proyek <i>revamp</i> platform e-commerce. Tergabung dalam tim Android (mengembangkan fitur profil, produk, dan proses pemesanan) serta membangun fungsionalitas komponen platform web.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">Kotlin</span>
+              <span class="tech-badge">Next.js</span>
+              <span class="tech-badge">Supabase</span>
+              <span class="tech-badge">Tailwind</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/genesis.png" alt="Genesis Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Genesis by Lion Parcel</h3>
+            </div>
+            <p class="project-desc">Portal internal operasional kurir. Bertanggung jawab atas pengembangan fitur manajemen agen, pelacakan pengiriman (<i>tracking</i>), dan laporan sistem operasi harian.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">Vue</span>
+              <span class="tech-badge">Pinia</span>
+              <span class="tech-badge">Storybook</span>
+              <span class="tech-badge">Jest</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/lilo.png" alt="Lilo Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Lilo by Lion Parcel</h3>
+            </div>
+            <p class="project-desc">Sistem manajemen gudang terpadu. Membangun fungsionalitas pengelolaan infrastruktur gudang, logistik, serta pelacakan alur barang masuk dan keluar.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">Vue</span>
+              <span class="tech-badge">Pinia</span>
+              <span class="tech-badge">Storybook</span>
+              <span class="tech-badge">Jest</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/mediverse.png" alt="Mediverse Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Mediverse by Biofarma</h3>
+            </div>
+            <p class="project-desc"><i>Super-app</i> layanan kesehatan. Berperan dalam pengembangan fitur <i>e-prescription</i>, CMS manajemen inventaris obat, dan optimasi responsivitas seluler pada <i>landing page</i>.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">React</span>
+              <span class="tech-badge">Redux</span>
+              <span class="tech-badge">Tailwind</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/rcti.png" alt="RCTI+ Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">RCTI+</h3>
+            </div>
+            <p class="project-desc">Platform <i>streaming</i> hiburan terpadu. Berkontribusi merancang dan membangun komponen antarmuka (UI) menggunakan Storybook untuk menunjang skalabilitas dan performa web.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">React</span>
+              <span class="tech-badge">Storybook</span>
+              <span class="tech-badge">GraphQL</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/saring.png" alt="Saring Web App Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Saring Web App</h3>
+            </div>
+            <p class="project-desc">Platform pemantauan mesin penyaringan berbasis IoT. Merancang antarmuka web reaktif untuk memvisualisasikan data telemetri dan menyediakan kapabilitas otomasi kendali jarak jauh.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">React</span>
+              <span class="tech-badge">Tailwind CSS</span>
+              <span class="tech-badge">Firebase</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/schematics.png" alt="Schematics 2025 Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Schematics 2025</h3>
+            </div>
+            <p class="project-desc">Portal acara IT terbesar Teknik Informatika ITS. Membangun berbagai modul kompleks termasuk sistem autentikasi, pendaftaran kompetisi, <i>landing page</i>, dan dasbor pemantauan data CTF.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">Next.js</span>
+              <span class="tech-badge">Tailwind CSS</span>
+              <span class="tech-badge">Framer Motion</span>
+              <span class="tech-badge">TanStack Query</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/petrolida.png" alt="Petrolida 2025 Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Petrolida 2025</h3>
+            </div>
+            <p class="project-desc">Situs web resmi dan dasbor manajemen kompetisi SPE ITS. Fokus pada pengembangan antarmuka interaktif pada <i>landing page</i> dan panel admin dengan skalabilitas performa tinggi.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">Next.js</span>
+              <span class="tech-badge">Tailwind CSS</span>
+              <span class="tech-badge">Framer Motion</span>
+              <span class="tech-badge">TanStack Query</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/mabacup.png" alt="MABACUP ITS 2024 Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">MABACUP ITS 2024</h3>
+            </div>
+            <p class="project-desc">Platform pendaftaran dan informasi acara tahunan LMB ITS. Bertanggung jawab atas implementasi antarmuka (UI/UX), integrasi API dengan backend, serta optimasi performa web.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">Next.js</span>
+              <span class="tech-badge">Tailwind CSS</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/hanoman.png" alt="Hanooman App Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Hanooman App</h3>
+            </div>
+            <p class="project-desc">Aplikasi <i>sales monitoring</i> (FMCG). Berperan aktif dalam tim Android untuk pengembangan sistem absensi validasi program kerja, penyusunan laporan, dan perbaikan <i>bug</i>.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">Flutter</span>
+              <span class="tech-badge">CodeIgniter</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-aos="zoom-in-up">
+          <div class="project-image-wrapper">
+            <img src="https://pub-cd43e4a9c97d45ffbf8e2aff8b5aaec1.r2.dev/images/turangga.png" alt="Turangga Resources Screenshot" class="project-image">
+          </div>
+          <div class="project-content">
+            <div class="project-header-row">
+              <h3 class="project-title">Turangga Resources</h3>
+            </div>
+            <p class="project-desc">Aplikasi internal pendukung ekosistem manajemen perusahaan. Terlibat dalam pengembangan antarmuka menu dinamis, sistem presensi, dan integrasi dengan API berbasis GraphQL.</p>
+            <div class="tech-stack-container">
+              <span class="tech-badge">React Native</span>
+              <span class="tech-badge">GraphQL</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <script>
+    const blob1 = document.querySelector('.blob-1');
+
+    document.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      blob1.style.left = (mouseX / window.innerWidth * 100) - 30 + '%';
+      blob1.style.top = (mouseY / window.innerHeight * 100) - 25 + '%';
+    });
+
+    AOS.init({
+      duration: 600, // sama dengan CSS animation 0.6s
+      easing: 'ease-in-out',
+      once: false, // animasi bisa jalan berkali-kali saat scroll
+      mirror: true, // animasi jalan saat scroll naik dan turun
+      offset: 100, // trigger 100px sebelum elemen enter viewport
+      delay: 0
+    });
+  </script>
+</body>
+
+</html>
